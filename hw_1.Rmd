@@ -1,0 +1,53 @@
+---
+title: "hw_1"
+author: "Stephanie Tsai"
+date: "January 13, 2019"
+output: html_document
+---
+#Arithmatic
+```{r}
+(5 - 3) * 2
+```
+```{r}
+(8/2) **2
+```
+
+#Gambler Problems
+```{r}
+blackjack <- c(140, -20, 70, -120, 240)
+roulette <- c(60, 50, 120, -300, 10)
+days <- c("Monday", "Tuesday", "Wednesday", "Thursday", "Friday")
+```
+
+```{r}
+#Not sure what this does
+names(blackjack) <- days
+names(roulette) <- days
+
+```
+```{r}
+total_blackjack <- sum(blackjack)
+total_blackjack #prints total
+```
+
+```{r}
+total_roulette <- sum(roulette)
+  total_roulette
+```
+#Total week
+```{r}
+total_week <- blackjack + roulette
+  total_week
+
+#Friday seems lucky and Thursday seems unlucky
+```
+#Choose blackjack or roulette
+```{r}
+winner_blackjack <- total_blackjack > total_roulette
+winner_roulette <- total_roulette > total_blackjack
+
+winner_blackjack
+winner_roulette
+
+```
+
