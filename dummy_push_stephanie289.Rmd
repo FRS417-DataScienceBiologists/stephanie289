@@ -1,0 +1,31 @@
+---
+title: "dummy_push_stephanie289"
+author: "Stephanie Tsai"
+date: "January 13, 2019"
+output: html_document
+---
+
+```{r}
+getwd()
+```
+```{r}
+sessionInfo()
+```
+```{r}
+library(nycflights13)
+library(tidyverse)
+```
+```{r}
+flights
+```
+```{r}
+flights %>% 
+  filter(origin=="JFK" & dest=="SFO")
+```
+```{r}
+flights %>% 
+  filter(origin=="JFK" & dest=="SFO") %>% 
+  ggplot(aes(x=carrier))+
+  geom_bar()
+```
+
