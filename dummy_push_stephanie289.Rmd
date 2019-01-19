@@ -5,23 +5,32 @@ date: "January 13, 2019"
 output: html_document
 ---
 
+## Working directory
 ```{r}
 getwd()
 ```
+## Session Info
 ```{r}
 sessionInfo()
 ```
+
+## Load the libraries
 ```{r}
 library(nycflights13)
 library(tidyverse)
 ```
+
+## nycflights13
 ```{r}
 flights
 ```
+## Filter
 ```{r}
 flights %>% 
   filter(origin=="JFK" & dest=="SFO")
 ```
+
+##Plot
 ```{r}
 flights %>% 
   filter(origin=="JFK" & dest=="SFO") %>% 
