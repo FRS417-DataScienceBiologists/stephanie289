@@ -1,0 +1,135 @@
+---
+title: "lab4_hw"
+author: "Stephanie Tsai"
+date: "February 8, 2019"
+output: 
+  html_document: 
+    keep_md: yes
+---
+
+```{r}
+library(tidyverse)
+library(skimr)
+```
+
+
+```{r}
+life_history <- readr::read_csv("C:/Users/Stephanie T/Desktop/Master File/class_files-master/mammal_lifehistories_v2.csv")
+```
+
+Rename some of the variables. Notice that I am replacing the old `life_history` data.
+```{r}
+life_histories <- 
+  life_history %>% 
+  rename( genus = Genus,
+          wean_mass    = `wean mass`,
+          max_life     = `max. life`,
+          litter_size  = `litter size`,
+          litters_yr   = `litters/year`
+          )
+
+life_histories
+```
+
+1. Explore the data using the method that you prefer. Below, I am using a new package called `skimr`. If you want to use this, make sure that it is installed.
+
+
+```{r}
+life_histories %>% 
+  skimr::skim()
+```
+
+2. Run the code below. Are there any NA's in the data? Does this seem likely?
+```{r}
+life_histories %>% 
+  summarize(number_nas= sum(is.na(life_history)))
+```
+```{r}
+#The summarize function states there are no NA data in the data frame, but this is highly unlikely because our previous code shows that there are -999 (usually indicates an NA from excel)
+```
+
+
+
+3. Are there any missing data (NA's) represented by different values? How much and where? In which variables do we have the most missing data? Can you think of a reason why so much data are missing in this variable?
+```{r}
+#Values used to represent NA: -999
+
+# These values are in all the numeric data and integer data
+```
+
+
+```{r}
+life_histories_na <- 
+  life_histories %>%
+  na_if("-999")
+
+life_histories_na %>% 
+  purrr::map_df(~ sum(is.na(.))) %>%
+  gather(variable, value = "num_NA") %>%
+  arrange(desc(num_NA))
+```
+```{r}
+# The variable with the most missing data is in wean_mass at 1039 NAs. It probably is difficult to determine exactly when an animal has entered the weaning phase, so not all animals could be weighed at the time.
+```
+
+
+4. Compared to the `msleep` data, we have better representation among taxa. Produce a summary that shows the number of observations by taxonomic order.
+```{r}
+taxa_summary <- life_histories_na %>% 
+  group_by(order) %>% 
+  summarize(n_total = n())
+
+taxa_summary
+  
+```
+
+
+5. Mammals have a range of life histories, including lifespan. Produce a summary of lifespan in years by order. Be sure to include the minimum, maximum, mean, standard deviation, and total n.
+```{r}
+#Adjustments to make: max lifespan to years from months
+# Reference http://esapubs.org/archive/ecol/E084/093/
+```
+## Tidy data
+```{r}
+
+summary_life <- life_histories_na %>%
+  mutate(yr_max_life = max_life/12) %>%
+  group_by(order) %>%
+  summarise(min_lifespan_yrs = min(yr_max_life, na.rm = TRUE),
+   max_lifespan_yrs = max(yr_max_life, na.rm = TRUE),
+   mean_lifespan_yrs = mean(yr_max_life, na.rm = TRUE),
+   sd_lifespan_yrs = sd(yr_max_life, na.rm = TRUE),
+   n_total = n()) 
+
+summary_life
+```
+
+
+
+
+6. Let's look closely at gestation and newborns. Summarize the mean gestation, newborn mass, and weaning mass by order. Add a new column that shows mean gestation in years and sort in descending order.  
+
+## Make initial summary chart
+```{r}
+#Note mass is by grams, gestation is by months
+life_newBorns <- life_histories_na %>%
+  select(order, gestation, newborn, wean_mass) %>%
+  group_by(order) %>%
+  summarise(mean_gestation_months = mean(gestation),
+            mean_gestation_yrs = mean(gestation/12),
+            mean_newborn_mass = mean(newborn),
+            mean_weanmass = mean(wean_mass)) %>%
+  arrange(desc(mean_gestation_yrs))
+
+life_newBorns
+
+```
+
+## Which group has the longest mean gestation? What is the common name for these mammals?
+  Proboscidea has the longest mean gestation of about 1.77 years. Their common name is elephants.
+
+## Wrap-up
+Please review the learning goals and be sure to use the code here as a reference when completing the homework.
+
+A) Work on making a repository for team data
+B) Upload data
