@@ -115,10 +115,10 @@ summary_life
 life_newBorns <- life_histories_na %>%
   select(order, gestation, newborn, wean_mass) %>%
   group_by(order) %>%
-  summarise(mean_gestation_months = mean(gestation),
-            mean_gestation_yrs = mean(gestation/12),
-            mean_newborn_mass = mean(newborn),
-            mean_weanmass = mean(wean_mass)) %>%
+  summarise(mean_gestation_months = mean(gestation, na.rm = TRUE),
+            mean_gestation_yrs = mean(gestation/12, na.rm = TRUE),
+            mean_newborn_mass = mean(newborn, na.rm = TRUE),
+            mean_weanmass = mean(wean_mass, na.rm = TRUE)) %>%
   arrange(desc(mean_gestation_yrs))
 
 life_newBorns

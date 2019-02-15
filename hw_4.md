@@ -13,7 +13,7 @@ library(tidyverse)
 ```
 
 ```
-## -- Attaching packages --------------------------------------- tidyverse 1.2.1 --
+## -- Attaching packages ----------------------------------------------------------------- tidyverse 1.2.1 --
 ```
 
 ```
@@ -24,7 +24,7 @@ library(tidyverse)
 ```
 
 ```
-## -- Conflicts ------------------------------------------ tidyverse_conflicts() --
+## -- Conflicts -------------------------------------------------------------------- tidyverse_conflicts() --
 ## x dplyr::filter() masks stats::filter()
 ## x dplyr::lag()    masks stats::lag()
 ```
@@ -105,14 +105,14 @@ life_histories %>%
 ##  n obs: 1440 
 ##  n variables: 13 
 ## 
-## -- Variable type:character -----------------------------------------------------
+## -- Variable type:character -------------------------------------------------------------------------------
 ##  variable missing complete    n min max empty n_unique
 ##    family       0     1440 1440   6  15     0       96
 ##     genus       0     1440 1440   3  16     0      618
 ##     order       0     1440 1440   7  14     0       17
 ##   species       0     1440 1440   3  17     0     1191
 ## 
-## -- Variable type:numeric -------------------------------------------------------
+## -- Variable type:numeric ---------------------------------------------------------------------------------
 ##     variable missing complete    n      mean         sd   p0  p25     p50
 ##          AFR       0     1440 1440   -408.12     504.97 -999 -999    2.5 
 ##    gestation       0     1440 1440   -287.25     455.36 -999 -999    1.05
@@ -291,10 +291,10 @@ summary_life
 life_newBorns <- life_histories_na %>%
   select(order, gestation, newborn, wean_mass) %>%
   group_by(order) %>%
-  summarise(mean_gestation_months = mean(gestation),
-            mean_gestation_yrs = mean(gestation/12),
-            mean_newborn_mass = mean(newborn),
-            mean_weanmass = mean(wean_mass)) %>%
+  summarise(mean_gestation_months = mean(gestation, na.rm = TRUE),
+            mean_gestation_yrs = mean(gestation/12, na.rm = TRUE),
+            mean_newborn_mass = mean(newborn, na.rm = TRUE),
+            mean_weanmass = mean(wean_mass, na.rm = TRUE)) %>%
   arrange(desc(mean_gestation_yrs))
 
 life_newBorns
@@ -304,23 +304,23 @@ life_newBorns
 ## # A tibble: 17 x 5
 ##    order   mean_gestation_~ mean_gestation_~ mean_newborn_ma~ mean_weanmass
 ##    <chr>              <dbl>            <dbl>            <dbl>         <dbl>
-##  1 Probos~            21.3             1.77            99523.            NA
-##  2 Periss~            13.0             1.09               NA             NA
-##  3 Hyraco~             7.4             0.617              NA             NA
-##  4 Tubuli~             7.08            0.59             1734           6250
-##  5 Dermop~             2.75            0.229              NA             NA
-##  6 Artiod~            NA              NA                  NA             NA
-##  7 Carniv~            NA              NA                  NA             NA
-##  8 Cetacea            NA              NA                  NA             NA
-##  9 Insect~            NA              NA                  NA             NA
-## 10 Lagomo~            NA              NA                  NA             NA
-## 11 Macros~            NA              NA                  NA             NA
-## 12 Pholid~            NA              NA                  NA             NA
-## 13 Primat~            NA              NA                  NA             NA
-## 14 Rodent~            NA              NA                  NA             NA
-## 15 Scande~            NA              NA                  NA             NA
-## 16 Sirenia            NA              NA                  NA             NA
-## 17 Xenart~            NA              NA                  NA             NA
+##  1 Probos~            21.3            1.77           99523.        600000  
+##  2 Periss~            13.0            1.09           27015.        382191. 
+##  3 Cetacea            11.8            0.983         343077.       4796125  
+##  4 Sirenia            10.8            0.9            22878.         67500  
+##  5 Hyraco~             7.4            0.617            231.           500  
+##  6 Artiod~             7.26           0.605           7082.         51025. 
+##  7 Tubuli~             7.08           0.59            1734           6250  
+##  8 Primat~             5.47           0.456            287.          2115. 
+##  9 Xenart~             4.95           0.412            314.           420  
+## 10 Carniv~             3.69           0.308           3657.         21020. 
+## 11 Pholid~             3.63           0.302            276.          2006. 
+## 12 Dermop~             2.75           0.229             35.9          NaN  
+## 13 Macros~             1.91           0.159             24.5          104. 
+## 14 Scande~             1.63           0.136             12.8          102. 
+## 15 Rodent~             1.31           0.109             35.5          135. 
+## 16 Lagomo~             1.18           0.0979            57.0          715. 
+## 17 Insect~             1.15           0.0958             6.06          33.1
 ```
 
 ## Which group has the longest mean gestation? What is the common name for these mammals?
